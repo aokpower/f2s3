@@ -11,6 +11,7 @@ GEM
     jmespath (1.2.4)
       json_pure (>= 1.8.1)
     json_pure (1.8.3)
+    rake (11.1.2)
 
 PLATFORMS
   ruby
@@ -18,6 +19,7 @@ PLATFORMS
 DEPENDENCIES
   aws-sdk (~> 2)
   dotenv
+  rake
 
 BUNDLED WITH
    1.12.3
