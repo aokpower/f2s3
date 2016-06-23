@@ -62,6 +62,7 @@ GEM
     shellany (0.0.1)
     slop (3.6.0)
     thor (0.19.1)
+    trollop (2.1.2)
 
 PLATFORMS
   ruby
@@ -73,6 +74,7 @@ DEPENDENCIES
   guard-rspec
   rake
   rspec
+  trollop
 
 BUNDLED WITH
-   1.12.3
+   1.12.5
