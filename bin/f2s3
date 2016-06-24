@@ -1,0 +1,56 @@
+#!/usr/bin/env ruby
+
+require 'trollop'
+require 'dotenv'
+require_relative '../lib/f2s3'
+
+class BucketPath
+  def self.build_from_opts(opts)
+    path_builder = new(opts)
+    path_builder.path
+  end
+
+  def initialize(opts)
+    @s3_file_name = opts[:s3_file_name]
+    @bucket_path  = opts[:bucket_path]
+  end
+
+  def path
+    ends_in_slash = @bucket_path[-1] == '/'
+    path          = @bucket_path + (ends_in_slash ? '' : '/')
+    file          = @s3_file_name.to_s
+    @path         = path + file
+  end
+end
+
+opts = Trollop.options do
+  version "F2S3 version #{F2S3::VERSION}, (c) 2016 Cooper Lebrun"
+  banner <<-EOS
+  Upload a file to S3 in easy mode. If you need to upload multiple files,
+  let me know and I'll add it in. I don't use this for more than single file
+  upload so, until it's demonstrated that any other use case will touch this,
+  I'll just be a bit lazy.
+  EOS
+  # opt :flag, "description"
+  # TODO: make mnemonic short options
+  opt :products,       'JSON products path. required.', type: :string
+  opt :bucket_name,    'Name of the bucket. required.', type: :string
+  opt :bucket_path,           'Bucket path. required.', type: :string
+  opt :s3_file_name, 'the filename you want on S3', type: :string
+  opt :dotenv_file, 'location of your S3 credentials, in .env form',
+      type: :string, default: '.env'
+end
+
+Trollop.die :products,    'is required'          unless opts[:products]
+Trollop.die :products,    'must be a valid file' unless opts[:products_given] && File.exist?(opts[:products])
+Trollop.die :bucket_name, 'is required'          unless opts[:bucket_name_given]
+Trollop.die :bucket_path, 'is required'          unless opts[:bucket_path_given]
+
+Dotenv.load(opts[:dotenv_file])
+file_name    = opts[:products]
+
+bucket_path = BucketPath.build_from_opts(opts)
+
+client       = F2S3::Uploader.new(opts[:bucket_name])
+client.upload_file(file_name, bucket_path)
+
