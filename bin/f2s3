@@ -12,8 +12,8 @@ opts = Trollop.options do
   upload so, until it's demonstrated that any other use case will touch this,
   I'll just be a bit lazy.
   EOS
-  # TODO: defaults in .env file
   # opt :flag, "description"
+  # TODO: make mnemonic short options
   opt :products,       'JSON products path. required.', type: :string
   opt :bucket_name,    'Name of the bucket. required.', type: :string
   opt :bucket_path,           'Bucket path. required.', type: :string
