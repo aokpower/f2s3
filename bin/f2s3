@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'trollop'
+require 'dotenv'
 require_relative '../lib/f2s3'
 
 opts = Trollop.options do
@@ -17,12 +18,15 @@ opts = Trollop.options do
   opt :bucket_name,    'Name of the bucket. required.', type: :string
   opt :bucket_path,           'Bucket path. required.', type: :string
   opt :target_file_name, 'the filename you want on S3', type: :string
+  opt :dotenv_file, 'location of your S3 credentials, in .env form',
+      type: :string, default: '.env'
 end
 
 Trollop.die :products, 'must be a valid file' unless opts[:products_given] && File.exist?(opts[:products])
 Trollop.die :bucket_name, 'is required' unless opts[:bucket_name_given]
 Trollop.die :bucket_path, 'is required' unless opts[:bucket_path_given]
 
+Dotenv.load(opts[:dotenv_file])
 file_name    = opts[:products]
 
 path_postfix = opts[:target_file_name].empty? ? '/' + opts[:target_file_name] : ''
