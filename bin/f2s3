@@ -36,7 +36,3 @@ bucket_path  = opts[:bucket_path] + path_postfix
 client       = F2S3::Uploader.new(opts[:bucket_name])
 client.upload_file(file_name, bucket_path)
 
-# p opts[:products]     # debug
-# p opts[:bucket_name]  # debug
-# p opts[:bucket_path]  # debug
-# p opts[:s3_file_name] # debug
