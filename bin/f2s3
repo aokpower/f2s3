@@ -4,6 +4,25 @@ require 'trollop'
 require 'dotenv'
 require_relative '../lib/f2s3'
 
+class BucketPath
+  def self.build_from_opts(opts)
+    path_builder = new(opts)
+    path_builder.path
+  end
+
+  def initialize(opts)
+    @s3_file_name = opts[:s3_file_name]
+    @bucket_path  = opts[:bucket_path]
+  end
+
+  def path
+    ends_in_slash = @bucket_path[-1] == '/'
+    path          = @bucket_path + (ends_in_slash ? '' : '/')
+    file          = @s3_file_name.to_s
+    @path         = path + file
+  end
+end
+
 opts = Trollop.options do
   version "F2S3 version #{F2S3::VERSION}, (c) 2016 Cooper Lebrun"
   banner <<-EOS
@@ -30,8 +49,7 @@ Trollop.die :bucket_path, 'is required'          unless opts[:bucket_path_given]
 Dotenv.load(opts[:dotenv_file])
 file_name    = opts[:products]
 
-path_postfix = opts[:s3_file_name_given] ? '/' + opts[:s3_file_name] : ''
-bucket_path  = opts[:bucket_path] + path_postfix
+bucket_path = BucketPath.build_from_opts(opts)
 
 client       = F2S3::Uploader.new(opts[:bucket_name])
 client.upload_file(file_name, bucket_path)
