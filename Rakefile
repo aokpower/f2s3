@@ -3,7 +3,7 @@ Dotenv.load
 
 task :test do
   require_relative 'lib/f2s3'
-  client      = F2S3.new('aokproduct')
+  client      = F2S3::Uploader.new('aokproduct')
   file_name   = 'test.json'
   bucket_path = 'Staging/rake_test.json'
 
