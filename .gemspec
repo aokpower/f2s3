@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.license = 'MIT'
   spec.require_path = 'lib'
 
-  # spec.executables << ''
+  spec.executables << 'f2s3'
 
   spec.add_runtime_dependency 'aws-sdk', '~> 2'
 end
