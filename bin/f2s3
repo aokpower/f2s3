@@ -22,9 +22,10 @@ opts = Trollop.options do
       type: :string, default: '.env'
 end
 
-Trollop.die :products, 'must be a valid file' unless opts[:products_given] && File.exist?(opts[:products])
-Trollop.die :bucket_name, 'is required' unless opts[:bucket_name_given]
-Trollop.die :bucket_path, 'is required' unless opts[:bucket_path_given]
+Trollop.die :products,    'is required'          unless opts[:products]
+Trollop.die :products,    'must be a valid file' unless opts[:products_given] && File.exist?(opts[:products])
+Trollop.die :bucket_name, 'is required'          unless opts[:bucket_name_given]
+Trollop.die :bucket_path, 'is required'          unless opts[:bucket_path_given]
 
 Dotenv.load(opts[:dotenv_file])
 file_name    = opts[:products]
