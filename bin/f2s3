@@ -10,9 +10,9 @@ class BucketPath
     path_builder.path
   end
 
-  def initialize(opts)
-    @s3_file_name = opts[:s3_file_name]
-    @bucket_path  = opts[:bucket_path]
+  def initialize(s3_file_name:, bucket_path:)
+    @s3_file_name = s3_file_name
+    @bucket_path  = bucket_path
   end
 
   def path
