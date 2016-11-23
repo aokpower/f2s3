@@ -6,7 +6,7 @@ RSpec.describe F2S3::Uploader do
     expect { F2S3::Uploader.new('aokproduct') }.to_not raise_error
   end
 
-  it 'upload smoke test', :pending do
+  it 'upload smoke test', pending: 'Pending VCR integration?' do
     client      = F2S3::Uploader.new('aokproduct')
     file_name   = 'test.json'
     bucket_path = 'Staging/test.json'
