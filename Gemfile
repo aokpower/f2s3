@@ -5,6 +5,7 @@ gem 'trollop'
 gem 'dotenv'
 
 group :test, :development do
+  gem 'pry'
   gem 'guard'
   gem 'guard-rspec'
   gem 'rspec'
